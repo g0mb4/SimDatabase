@@ -35,7 +35,7 @@ YYYY-MM-DD;hh:mm:ss;v1;v2;v3;v4...
 ```
 This format can be easily exportef from an Excel table using CSV export.
 
-The precision required for the study is, currently, achieved by linear interpolation, which can be turned off.
+The precision required for the simulation is, currently, achieved by linear interpolation, which can be turned off.
 
 See ```test_matlabfcn_offline.slx```
 
@@ -55,4 +55,4 @@ Copy ```simdatabase.dll``` and ```resolve_pointer.m``` to the **Working Director
 - Can be ported to Linux (```mex()``` will be different).
 
 ## License
-Use, modify as you wish ;)
+Use, modify as you wish, just mention me in your README ;) 
