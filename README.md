@@ -8,10 +8,11 @@ A MySQL extension for Simulink.
 The Online database block uses a MySQL server to generate the desired output data, this is achieved by a custom dynamic link library (dll) file. This library was written in C using the **MySQL Connector C API version 6.1.11**.
 
 The block can interpret a predefined format of SQL entry:
+
 | date        | time     | data                 |
 |:-----------:|:--------:|:--------------------:|
 | YYYY-MM-DD  | hh:mm:ss | N1=v1;N2=v2;N3=v3; … |
-| ...  		  |  ...     | ...                  |       
+| ...  		    |  ...     | ...                  |       
 
 This way a specified number of *vs* can be extracted from the database for the given *Ns* based on the time interval.
 
