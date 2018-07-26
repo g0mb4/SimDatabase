@@ -3,7 +3,7 @@ A MySQL extension for Simulink.
 
 ## Online mode
 
-![online](https://github.com/g0mb4/SimDatabase/imgs/online.png)
+![online](https://github.com/g0mb4/SimDatabase/tree/master/imgs/online.png)
 
 The Online database block uses a MySQL server to generate the desired output data, this is achieved by a custom dynamic link library (dll) file. This library was written in C using the **MySQL Connector C API version 6.1.11**.
 
@@ -23,7 +23,7 @@ See ```test_matlabfcn_online.slx```
 
 ## Offline mode
 
-![offline](https://github.com/g0mb4/SimDatabase/imgs/offline.png)
+![offline](https://github.com/g0mb4/SimDatabase/tree/master/imgs/offline.png)
 
 The Offline database block uses a file to output the measured data. The Simulink program has no easy built-in support for custom text file handling, so this is achieved by the same .dll file used in the Online database block.
 
