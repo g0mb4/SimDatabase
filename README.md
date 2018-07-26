@@ -24,7 +24,7 @@ See ```test_matlabfcn_online.slx```
 
 ## Offline mode
 
-![offline](https://github.com/g0mb4/SimDatabase/tree/master/imgs/offline.png)
+![offline](imgs/offline.png)
 
 The Offline database block uses a file to output the measured data. The Simulink program has no easy built-in support for custom text file handling, so this is achieved by the same .dll file used in the Online database block.
 
