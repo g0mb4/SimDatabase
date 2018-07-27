@@ -33,7 +33,7 @@ The block can interpret a predefined format of file entry:
 Date;Time;N1;N2;N3;N4...
 YYYY-MM-DD;hh:mm:ss;v1;v2;v3;v4...
 ```
-This format can be easily exportef from an Excel table using CSV export.
+This format can be easily exported from an Excel table using CSV export.
 
 The precision required for the simulation is, currently, achieved by linear interpolation, which can be turned off.
 
