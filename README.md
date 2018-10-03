@@ -51,7 +51,7 @@ Copy ```simdatabase.dll``` and ```resolve_pointer.m``` to the **Working Director
 
 ## Notes
 - The ```simdatabase_step_x()``` functions have **10** outputs.
-- Tested on Windows 10 x64.
+- Tested on Windows 10 x64 with MATLAB R2018a.
 - Can be ported to Linux (```mex()``` will be different).
 
 ## License
