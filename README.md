@@ -1,5 +1,5 @@
-# SimDatabase
-A MySQL extension for Simulink.
+# SimDatabase-extlib
+A MySQL extension for Simulink.External dynamic library.
 
 ## Online mode
 
