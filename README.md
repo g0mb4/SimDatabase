@@ -46,19 +46,21 @@ The precision required for the simulation is, currently, achieved by linear inte
 - Visual Studio 2017 Community Edition (free)
 
 ## Compilation
-Use (and modify) ```compile_and_run.m```
+Setup ```mex``` with the ```mex -setup``` command in MATLAB.
+- sfun : Run ```compile.m```.
+- extlib : Run ```compile_and_test.m```.
 
 ## Usage
- - sfun : Run ```compile.m```, copy ```sfun_simdatabase.mexwXX``` to the **Working Directory** and see ```sim_test.slx```
- - extlib : Run ```compile_and_test.m```, copy ```simdatabase.dll``` and ```resolve_pointer.m``` to the **Working Directory** and follow the example .SLX files.
+- sfun : Copy ```sfun_simdatabase.mexwXX``` to the **Working Directory** and see ```sim_test.slx```.
+- extlib : Copy ```simdatabase.dll``` and ```resolve_pointer.m``` to the **Working Directory** and follow the example ```.SLX``` files.
 
 ## Notes
 - The ```simdatabase_step_x()``` functions have **10** outputs.
-- Tested on Windows 10 x64 with MATLAB R2018a.
+- Compiled with MS Visual Studio 2017 Community.
+- Tested on Windows 10 x64.
 - Can be ported to Linux (```mex()``` will be different).
 
 ## TODO
- - S-function of the offline mode
 
 ## License
 Use, modify as you wish, just mention me in your README ;) 
