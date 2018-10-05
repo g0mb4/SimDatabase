@@ -26,6 +26,8 @@ The precision required for the simulation is, currently, achieved by linear inte
 
 The connection and the query take a long time compared to the other operations. To solve this problem the block saves the results in a unique file and only uses the database when this file does not exist, otherwise reads the data from the file, which takes significantly less time.
 
+[Example] (https://www.youtube.com/watch?v=yDe3t1PS36U)
+
 ## Offline mode
 
 ![offline](imgs/offline.png)
@@ -42,7 +44,7 @@ This format can be easily exported from an Excel table using CSV export.
 The precision required for the simulation is, currently, achieved by linear interpolation, which can be turned off.
 
 ## Requirements
-- MATLAB R2018a + Simulink (trial can do the trick)
+- MATLAB R2018b + Simulink (trial can do the trick)
 - Visual Studio 2017 Community Edition (free)
 
 ## Compilation
