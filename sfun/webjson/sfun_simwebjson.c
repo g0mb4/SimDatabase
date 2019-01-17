@@ -1,10 +1,9 @@
-#define S_FUNCTION_NAME  sfun_simdatabase
+#define S_FUNCTION_NAME  sfun_simwebjson
 #define S_FUNCTION_LEVEL 2
 
 #include "simstruc.h"
 
-#include "dconsole.h"
-#include "mysql_wrapper.h"
+#include "webjson_wrapper.h"
 
 #define GET_PARAM_STR( param, str ) \
 	tmp_size = (size_t)(mxGetNumberOfElements(ssGetSFcnParam(S, param )) + 1); \
@@ -30,13 +29,13 @@ static bool interpolate = false;
  */
 static void mdlInitializeSizes(SimStruct * S){
 	dconsole_init();
-	dconsole_write("started.");
+	dconsole_info("simwebjson started");
 
-    ssSetNumSFcnParams(S, 12);  	// number of expected parameters
+    ssSetNumSFcnParams(S, 8);  	// number of expected parameters
 
 	/* return if number of expected != number of actual parameters */
     if (ssGetNumSFcnParams(S) != ssGetSFcnParamsCount(S)) {
-		ssSetErrorStatus(S, "Function needs 12 parameters.");
+		ssSetErrorStatus(S, "Function needs 8 parameters.");
         return;
     }
 
@@ -46,115 +45,71 @@ static void mdlInitializeSizes(SimStruct * S){
 	}
 
 	if(!mxIsNumeric(ssGetSFcnParam(S, 1)) || mxGetNumberOfElements(ssGetSFcnParam(S, 1)) != 1){
-		ssSetErrorStatus(S, "Second parameter is the port, integer (eg. 3306).");
+		ssSetErrorStatus(S, "Second parameter is the port, integer (eg. 80).");
         return;
 	}
 
 	if(!mxIsChar(ssGetSFcnParam(S, 2))){
-		ssSetErrorStatus(S, "Third parameter is the username, string (eg. 'root').");
-        return;
-	}
-
-	if(!mxIsChar(ssGetSFcnParam(S, 3))){
-		ssSetErrorStatus(S, "Fourth parameter is the password, string (eg. 'toor', '').");
-        return;
-	}
-
-	if(!mxIsChar(ssGetSFcnParam(S, 4))){
-		ssSetErrorStatus(S, "Fifth parameter is the database, string (eg. 'sim_test').");
-        return;
-	}
-
-	if(!mxIsChar(ssGetSFcnParam(S, 5))){
-		ssSetErrorStatus(S, "Sixth parameter is the tabe, string (eg. 'data').");
-        return;
-	}
-
-	if(!mxIsChar(ssGetSFcnParam(S, 6))){
 		ssSetErrorStatus(S, "Seventh parameter is the start day, string (eg. '2018-04-17').");
         return;
 	}
 
-	if(!mxIsChar(ssGetSFcnParam(S, 7))){
+	if(!mxIsChar(ssGetSFcnParam(S, 3))){
 		ssSetErrorStatus(S, "Eighth parameter is the start time, string (eg. '06:00:00').");
         return;
 	}
 
-	if(!mxIsChar(ssGetSFcnParam(S, 8))){
+	if(!mxIsChar(ssGetSFcnParam(S, 4))){
 		ssSetErrorStatus(S, "Ninth parameter is the end day, string (eg. '2018-04-17').");
         return;
 	}
 
-	if(!mxIsChar(ssGetSFcnParam(S, 9))){
+	if(!mxIsChar(ssGetSFcnParam(S, 5))){
 		ssSetErrorStatus(S, "Tenth parameter is the end time, string (eg. '20:30:00').");
         return;
 	}
 
-	if(!mxIsChar(ssGetSFcnParam(S, 10))){
+	if(!mxIsChar(ssGetSFcnParam(S, 6))){
 		ssSetErrorStatus(S, "Eleventh parameter is the sensors, string (eg. 'TW,I').");
         return;
 	}
 
-	if(!mxIsNumeric(ssGetSFcnParam(S, 11)) || mxGetNumberOfElements(ssGetSFcnParam(S, 11)) != 1){
+	if(!mxIsNumeric(ssGetSFcnParam(S, 7)) || mxGetNumberOfElements(ssGetSFcnParam(S, 7)) != 1){
 		ssSetErrorStatus(S, "Twelfth parameter is the interpolation, integer (0 - no, 1 - yes).");
         return;
 	}
 
 	size_t tmp_size;
 	GET_PARAM_STR( 0, addr );
-	GET_PARAM_STR( 2, user );
-	GET_PARAM_STR( 3, pass );
-	GET_PARAM_STR( 4, db );
-	GET_PARAM_STR( 5, table );
-	GET_PARAM_STR( 6, start_day );
-	GET_PARAM_STR( 7, start_time );
-	GET_PARAM_STR( 8, end_day );
-	GET_PARAM_STR( 9, end_time );
-	GET_PARAM_STR( 10, sensors );
+	GET_PARAM_STR( 2, start_day );
+	GET_PARAM_STR( 3, start_time );
+	GET_PARAM_STR( 4, end_day );
+	GET_PARAM_STR( 5, end_time );
+	GET_PARAM_STR( 6, sensors );
 
-	interpolate = mxGetScalar(ssGetSFcnParam(S, 11)) != 0 ? true : false;
+	interpolate = mxGetScalar(ssGetSFcnParam(S, 7)) != 0 ? true : false;
 
-	if(mywrapper_init(addr,
+    if(wjwrapper_init(addr,
 		 			  mxGetScalar(ssGetSFcnParam(S, 1)),	// port
-		 		  	  user,
-		   			  pass,
-		    		  db,
-			 	  	  table,
 			  		  start_day,
 			   		  start_time,
 			    	  end_day,
 				 	  end_time,
 				      sensors) < 0){
-		ssSetErrorStatus(S, "Connection failed.");
-		return;
-	}
-
-	FREE_PARAM_STR( addr );
-	FREE_PARAM_STR( user );
-	FREE_PARAM_STR( pass );
-	FREE_PARAM_STR( db );
-	FREE_PARAM_STR( table );
-	FREE_PARAM_STR( start_day );
-	FREE_PARAM_STR( start_time );
-	FREE_PARAM_STR( end_day );
-	FREE_PARAM_STR( end_time );
-	FREE_PARAM_STR( sensors );
-
-	if(mywrapper_query() < 0){
-		ssSetErrorStatus(S, "Query failed.");
-		return;
+		ssSetErrorStatus(S, "Init failed.");
+		goto free_and_close;
 	}
 
 	/* no input */
     if (!ssSetNumInputPorts(S, 0))
-		return;
+		goto free_and_close;
 
 	/* 1 output */
     if (!ssSetNumOutputPorts(S, 1))
-		return;
+		goto free_and_close;
 
 	/* size of the 1st output */
-    ssSetOutputPortWidth(S, 0, mywrapper_get_data_size());
+    ssSetOutputPortWidth(S, 0, wjwrapper_get_data_size());
 
 	ssSetNumContStates(S, 0);	// number of continuous states
 	ssSetNumDiscStates(S, 0);	// number of discrate states
@@ -171,6 +126,14 @@ static void mdlInitializeSizes(SimStruct * S){
 
     /* take care when specifying exception free code - see sfuntmpl.doc */
     ssSetOptions(S, SS_OPTION_EXCEPTION_FREE_CODE);
+
+free_and_close:
+    FREE_PARAM_STR( addr );
+    FREE_PARAM_STR( start_day );
+    FREE_PARAM_STR( start_time );
+    FREE_PARAM_STR( end_day );
+    FREE_PARAM_STR( end_time );
+    FREE_PARAM_STR( sensors );
 }
 
 /* Function: mdlInitializeSampleTimes =========================================
@@ -202,15 +165,14 @@ static void mdlStart(SimStruct * S){
 static void mdlOutputs(SimStruct * S, int_T tid){
 	UNUSED_ARG(tid);
 
-	real_T * y = (real_T *)ssGetOutputPortSignal(S, 0);
-	//real_T k = mxGetPr(PARAM1(S))[0];
-	uint32_t size = mywrapper_get_data_size();
+    real_T * y = (real_T *)ssGetOutputPortSignal(S, 0);
+	uint32_t size = wjwrapper_get_data_size();
 	double * out = (double *)malloc(size * sizeof(double));
 	if(out == NULL){
 		ssSetErrorStatus(S, "malloc() failed.");
 		return;
 	}
-	mywrapper_step(ssGetT(S), interpolate, out);
+	wjwrapper_step(ssGetT(S), interpolate, out);
 	for(int i = 0; i < size; i++){
 		y[i] = (real_T)out[i];
 	}
@@ -226,8 +188,8 @@ static void mdlOutputs(SimStruct * S, int_T tid){
 static void mdlTerminate(SimStruct * S){
     UNUSED_ARG(S);
 
-    mywrapper_deinit();
-    dconsole_write("stoped.");
+    wjwrapper_deinit();
+    dconsole_info("simwebjson stoped");
 	dconsole_deinit();
 }
 

@@ -1,11 +1,17 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#ifdef _MSC_VER
+	#define WIN32_LEAN_AND_MEAN
+    #define strdup  _strdup
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdint.h>
 #include <stdbool.h>	// - 'false': macro redefinition
+
+#include <string.h>
 #include <time.h>
 
 #define ABS( x ) ( x = x < 0 ? x * -1 : x )
