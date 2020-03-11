@@ -1,5 +1,5 @@
 # SimDatabase
-A MySQL extension for Simulink. 
+A MySQL extension for Simulink.
 
 ## extlib - External Library
 Dynamic Link Library. I wrote this to test the capabilities of this method.
@@ -11,7 +11,7 @@ More elegant and useable soultion with proper error handling. **Use this!**
 
 ![online](imgs/online.png)
 
-The Online database block uses a MySQL server to generate the desired output data, this is achieved by a custom dynamic link library (dll) file. This library was written in C using the **MySQL Connector C API version 6.1.11**.
+The Online database block uses a MySQL server to generate the desired output data, this is achieved by a custom CMEX S-Function written in C using the **MySQL Connector C API version 6.1.11**.
 
 The block can interpret a predefined format of SQL entry:
 
@@ -25,8 +25,6 @@ This way a specified number of *vs* can be extracted from the database for the g
 The precision required for the simulation is, currently, achieved by linear interpolation, which can be turned off.
 
 The connection and the query take a long time compared to the other operations. To solve this problem the block saves the results in a unique file and only uses the database when this file does not exist, otherwise reads the data from the file, which takes significantly less time.
-
-Example: https://www.youtube.com/watch?v=yDe3t1PS36U
 
 ## Offline mode
 
@@ -57,12 +55,5 @@ Setup ```mex``` with the ```mex -setup``` command in MATLAB.
 - extlib : Copy ```simdatabase.dll``` and ```resolve_pointer.m``` to the **Working Directory** and follow the example ```.SLX``` files.
 
 ## Notes
-- The ```simdatabase_step_x()``` functions have **10** outputs.
 - Compiled with MS Visual Studio 2017 Community.
 - Tested on Windows 10 x64.
-- Can be ported to Linux (```mex()``` will be different).
-
-## TODO
-
-## License
-Use, modify as you wish, just mention me in your README ;) 
