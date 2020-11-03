@@ -1,11 +1,11 @@
 # SimDatabase
 A MySQL extension for Simulink.
 
-## extlib - External Library
-Dynamic Link Library. I wrote this to test the capabilities of this method.
-
 ## sfun - CMEX S-Function
-More elegant and useable soultion with proper error handling. **Use this!**
+More elegant and useable soultion with proper error handling.
+
+## extlib - External Library
+Dynamic Link Library. I wrote this to test the capabilities of this method. (obsolete)
 
 ## Online mode
 
