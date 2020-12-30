@@ -1,17 +1,13 @@
 # SimDatabase
-A MySQL extension for Simulink.
+A MySQL/WebAPI(JSON) extension for Simulink.
 
-## sfun - CMEX S-Function
-More elegant and useable soultion with proper error handling.
+## MySQL block
 
-## extlib - External Library
-Dynamic Link Library. I wrote this to test the capabilities of this method. (obsolete)
+![sql_database](imgs/SQLDatabase.png)
+![sql_database_params](imgs/SQLDatabase_params.png)
+![sfun_simsql](imgs/sfun_simsql.png)
 
-## Online mode
-
-![online](imgs/online.png)
-
-The Online database block uses a MySQL server to generate the desired output data, this is achieved by a custom CMEX S-Function written in C using the **MySQL Connector C API version 6.1.11**.
+The MySQL database block connects to a MySQL server in order to request the desired output data, this is achieved by a custom CMEX S-Function written in C using the **MySQL Connector C API version 6.1.11**.
 
 The block can interpret a predefined format of SQL entry:
 
@@ -26,33 +22,61 @@ The precision required for the simulation is, currently, achieved by linear inte
 
 The connection and the query take a long time compared to the other operations. To solve this problem the block saves the results in a unique file and only uses the database when this file does not exist, otherwise reads the data from the file, which takes significantly less time.
 
-## Offline mode
+## WebAPI (JSON) block
 
-![offline](imgs/offline.png)
+![webapi_json](imgs/JSONAPIDatabase.png)
+![webapi_json_params](imgs/JSONAPIDatabase_params.png)
+![sfun_webjson](imgs/sfun_simwebjson.png)
 
-The Offline database block uses a file to output the measured data. The Simulink program has no easy built-in support for custom text file handling, so this is achieved by the same .dll file used in the Online database block.
+The WebAPI (JSON) block connects to a TCP/IP server in order to request the desired output data in the form of a JSON response. The block implements a TCP/IP client and uses [DaveGamble's cJSON library](https://github.com/DaveGamble/cJSON) to parse the response.
 
-The block can interpret a predefined format of file entry:
+An example of a request:
 ```
-Date;Time;N1;N2;N3;N4...
-YYYY-MM-DD;hh:mm:ss;v1;v2;v3;v4...
+http://127.0.0.1/api/api.php?startDate=2019-05-
+17&startTime=06:00:00&endDate=2019-05-
+17&endTime=20:30:00&sensors=TW,I
 ```
-This format can be easily exported from an Excel table using CSV export.
+An example of a response (if the query was successful):
+```
+{
+    "data":[
+        {
+            "date":"2018-04-17",
+            "time":"06:00:00",
+            "TW":20.98,
+            "I":53.33
+        },
+        {
+            "date":"2018-04-17",
+            "time":"06:40:00",
+            "TW":21.95,
+            "I":103.33
+        }
+    ]
+}
+```
+An example of a response (if the query was unsuccessful):
+```
+{
+    "error": "startTime is needed"
+}
+```
 
 The precision required for the simulation is, currently, achieved by linear interpolation, which can be turned off.
 
+The connection and the query take a long time compared to the other operations. To solve this problem the block saves the results in a unique file and only uses the database when this file does not exist, otherwise reads the data from the file, which takes significantly less time.
+
 ## Requirements
-- MATLAB R2018b + Simulink (trial can do the trick)
+- MATLAB (>= R2018b) + Simulink (trial can do the trick)
 - Visual Studio 2017 Community Edition (free)
 
 ## Compilation
 Setup ```mex``` with the ```mex -setup``` command in MATLAB.
-- sfun : Run ```compile.m```.
-- extlib : Run ```compile_and_test.m```.
+Run ```sfun/sql/compile.m``` or ```sfun/webjson/compile.m```.
 
 ## Usage
-- sfun : Copy ```sfun_simdatabase.mexwXX``` to the **Working Directory** and see ```sim_test.slx```.
-- extlib : Copy ```simdatabase.dll``` and ```resolve_pointer.m``` to the **Working Directory** and follow the example ```.SLX``` files.
+Use the database example ```example/sql/sim_test.sql``` to setup the database.
+In order to use the JSON block, an example implementation of the API can be found in ```example/webjson```, it is called **api**. It uses the previously installed database scheme.
 
 ## Notes
 - Compiled with MS Visual Studio 2017 Community.
