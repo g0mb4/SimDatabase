@@ -8,7 +8,9 @@
 #include "cJSON.h"
 #include "storage_file.h"
 
-int wjwrapper_init(const char * addr, int port, const char * date_from, const char * time_from, const char * date_until, const char * time_until, const char * sensors);
+int wjwrapper_init(const char * addr, int port, const char * date_from,
+                   const char * time_from, const char * date_until,
+                   const char * time_until, const char * sensors);
 void wjwrapper_deinit(void);
 void wjwrapper_step(double t, bool lin_interpolate, double * out);
 uint32_t wjwrapper_get_data_size(void);

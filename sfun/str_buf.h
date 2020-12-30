@@ -7,9 +7,9 @@
 #include <stdint.h>
 
 typedef struct S_STR_BUF {
-	uint32_t len;
-	uint32_t cap;
-	char * str;
+    uint32_t len;
+    uint32_t cap;
+    char * str;
 } str_buf_t;
 
 str_buf_t * str_buf_create(void);

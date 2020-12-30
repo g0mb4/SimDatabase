@@ -17,6 +17,8 @@
 int tcp_connect(const char * addr, int port);
 void tcp_disconnect(void);
 
-int tcp_get_data(str_buf_t * buf, const char * start_date, const char * start_time, const char * end_date, const char * end_time, const char * sensors);
+int tcp_get_data(str_buf_t * buf, const char * start_date,
+                 const char * start_time, const char * end_date,
+                 const char * end_time, const char * sensors);
 
 #endif
